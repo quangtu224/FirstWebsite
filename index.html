@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quang Tu Dinh - Informatik Student</title>
+  <title>Quang Tu Dinh - Computer Science Student</title>
+  <meta name="description"
+    content="Quang Tu Dinh - Computer Science student at FAU Erlangen-Nuremberg, working student in IT support, interested in web development and cloud computing." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Questrial&display=swap">
@@ -14,21 +16,34 @@
 
 <body id="top">
 
-  <header class="site-header">
-    <a href="#top" class="brand">Quang Tu Dinh</a>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <nav class="site-nav" aria-label="Main navigation">
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="brand">Quang Tu Dinh</a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav"
+        aria-label="Open menu">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+
+      <nav id="primary-nav" class="site-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <main>
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
     <section class="hero">
       <div class="container hero-inner">
 
@@ -36,29 +51,260 @@
           <p class="hero-eyebrow">Hello, my name is</p>
           <h1>Quang Tu Dinh</h1>
           <p class="hero-tagline">
-            Informatics student in my 5th semester, interested in [backend / web development]
+            Computer Science student at FAU Erlangen-N&uuml;rnberg and working student in IT support.
+            I build things for the web and enjoy making data tell a clear story.
           </p>
 
           <ul class="hero-contact">
             <li><a href="mailto:quangtu224@gmail.com">quangtu224@gmail.com</a></li>
-            <li><a href="tel:+49123456789">+49 123 456 789</a></li>
+            <li><a href="tel:+491795488773">+49 179 5488773</a></li>
             <li>Erlangen, Germany</li>
             <li><a href="https://github.com/quangtu224" target="_blank" rel="noopener">GitHub</a></li>
+            <!-- TODO: thay bang link LinkedIn that cua ban -->
+            <li><a href="https://www.linkedin.com/in/YOUR-PROFILE" target="_blank" rel="noopener">LinkedIn</a></li>
           </ul>
         </div>
 
         <div class="hero-photo">
-          <div class="avatar"> <img src="img/avatar.jpg" alt="Quang Tu Dinh" width="440" height="440">
+          <div class="avatar">
+            <img src="img/avatar.jpg" alt="Quang Tu Dinh" width="440" height="440">
           </div>
         </div>
 
       </div>
     </section>
 
+    <!-- ============ ABOUT ============ -->
+    <section id="about" class="section">
+      <div class="container">
+        <h2 class="section-title">About</h2>
+        <p class="about-text">
+          I am in my fifth semester of a Bachelor of Science in Computer Science at
+          Friedrich-Alexander-Universit&auml;t Erlangen-N&uuml;rnberg. Alongside my studies I work as a
+          working student in IT support, where I build Power BI dashboards, prepare data with SQL
+          and automate recurring reports.
+        </p>
+        <p class="about-text">
+          My coursework has taken me from data structures and algorithms through to distributed
+          systems and cloud computing, and my own projects tend to end up somewhere on the web.
+          I am currently looking for an internship or working student role in software development.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section id="experience" class="section">
+      <div class="container">
+        <h2 class="section-title">Experience</h2>
+
+        <article class="entry">
+          <div class="entry-meta">
+            <p class="entry-org">Kiwa BCS &Ouml;ko-Garantie GmbH</p>
+            <p class="entry-place">N&uuml;rnberg, Germany</p>
+            <p class="entry-date">10/2025 &ndash; present</p>
+          </div>
+          <div class="entry-body">
+            <h3 class="entry-role">Working Student, IT Support</h3>
+            <ul class="entry-list">
+              <li>Build and maintain interactive Power BI dashboards and reports for internal departments</li>
+              <li>Extract and prepare data from relational databases with SQL, and produce recurring reports</li>
+              <li>Automate evaluations in Excel using Power Query, pivot tables and advanced formulas</li>
+              <li>Handle day-to-day IT requests from colleagues as first-level support</li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ============ EDUCATION ============ -->
+    <section id="education" class="section">
+      <div class="container">
+        <h2 class="section-title">Education</h2>
+
+        <article class="entry">
+          <div class="entry-meta">
+            <p class="entry-org">FAU Erlangen-N&uuml;rnberg</p>
+            <p class="entry-place">Erlangen, Germany</p>
+            <p class="entry-date">10/2023 &ndash; present</p>
+          </div>
+          <div class="entry-body">
+            <h3 class="entry-role">B.Sc. Computer Science</h3>
+            <p class="entry-text">
+              Focus on data structures and algorithms, object-oriented programming, design patterns,
+              databases, and distributed and cloud systems.
+            </p>
+          </div>
+        </article>
+
+        <article class="entry">
+          <div class="entry-meta">
+            <p class="entry-org">Karlsruhe Institute of Technology</p>
+            <p class="entry-place">Karlsruhe, Germany</p>
+            <p class="entry-date">02/2022 &ndash; 02/2023</p>
+          </div>
+          <div class="entry-body">
+            <h3 class="entry-role">Studienkolleg, Technical Course (T-Kurs)</h3>
+            <p class="entry-text">
+              Preparatory year qualifying for technical degree programmes at German universities.
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ============ PROJECTS ============ -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h2 class="section-title">Projects</h2>
+
+        <div class="project-grid">
+
+          <article class="card project">
+            <h3 class="project-title">WebChat</h3>
+            <p class="project-subtitle">Full-stack web application</p>
+            <ul class="entry-list">
+              <li>Built the server logic in Node.js with data persistence in MongoDB</li>
+              <li>Focused on a clean API structure, non-blocking asynchronous I/O and reliable data handling</li>
+              <li>Used WebAssembly for performance-critical components inside the web workflow</li>
+            </ul>
+            <ul class="tag-list">
+              <li class="tag">JavaScript</li>
+              <li class="tag">Node.js</li>
+              <li class="tag">MongoDB</li>
+              <li class="tag">WebAssembly</li>
+            </ul>
+            <!-- TODO: thay bang link GitLab that cua project -->
+            <a class="project-link" href="https://gitlab.com/YOUR-USERNAME/webchat" target="_blank" rel="noopener">
+              View on GitLab
+            </a>
+          </article>
+
+          <article class="card project">
+            <h3 class="project-title">Middleware and Cloud Computing</h3>
+            <p class="project-subtitle">Distributed systems coursework</p>
+            <ul class="entry-list">
+              <li>Developed a cloud-based web service running in a hybrid AWS and OpenStack environment</li>
+              <li>Implemented autoscaling, an HDFS-like distributed file system and a MapReduce pipeline</li>
+              <li>Built a fault-tolerant, ZooKeeper-like coordination service to synchronise distributed components</li>
+            </ul>
+            <ul class="tag-list">
+              <li class="tag">AWS EC2</li>
+              <li class="tag">OpenStack</li>
+              <li class="tag">MapReduce</li>
+              <li class="tag">Distributed Systems</li>
+            </ul>
+            <!-- TODO: thay bang link GitLab that cua project -->
+            <a class="project-link" href="https://gitlab.com/YOUR-USERNAME/middleware-cloud" target="_blank"
+              rel="noopener">
+              View on GitLab
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section id="skills" class="section">
+      <div class="container">
+        <h2 class="section-title">Skills</h2>
+
+        <div class="skills-grid">
+
+          <div class="skill-group">
+            <h3 class="skill-heading">Programming Languages</h3>
+            <ul class="tag-list">
+              <li class="tag">C++</li>
+              <li class="tag">C</li>
+              <li class="tag">Java</li>
+              <li class="tag">Python</li>
+              <li class="tag">NumPy</li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h3 class="skill-heading">Web Technologies</h3>
+            <ul class="tag-list">
+              <li class="tag">HTML</li>
+              <li class="tag">CSS</li>
+              <li class="tag">JavaScript</li>
+              <li class="tag">TypeScript</li>
+              <li class="tag">Node.js</li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h3 class="skill-heading">Data &amp; Reporting</h3>
+            <ul class="tag-list">
+              <li class="tag">Power BI</li>
+              <li class="tag">Power Query</li>
+              <li class="tag">SQL</li>
+              <li class="tag">Excel</li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h3 class="skill-heading">Computer Science Foundations</h3>
+            <ul class="tag-list">
+              <li class="tag">Data Structures &amp; Algorithms</li>
+              <li class="tag">OOP</li>
+              <li class="tag">Design Patterns</li>
+              <li class="tag">Scrum</li>
+              <li class="tag">SQL &amp; NoSQL Databases</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <h3 class="skill-heading languages-heading">Languages</h3>
+        <ul class="language-list">
+          <li><span class="language-name">Vietnamese</span> <span class="language-level">Native</span></li>
+          <li><span class="language-name">German</span> <span class="language-level">Advanced (C1)</span></li>
+          <li><span class="language-name">English</span> <span class="language-level">Fluent</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="section">
+      <div class="container">
+        <h2 class="section-title">Contact</h2>
+        <p class="about-text">
+          I am open to internship and working student opportunities in software development.
+          The quickest way to reach me is by email.
+        </p>
+
+        <ul class="contact-list">
+          <li class="card contact-card">
+            <span class="contact-label">Email</span>
+            <a href="mailto:quangtu224@gmail.com">quangtu224@gmail.com</a>
+          </li>
+          <li class="card contact-card">
+            <span class="contact-label">Phone</span>
+            <a href="tel:+491795488773">+49 179 5488773</a>
+          </li>
+          <li class="card contact-card">
+            <span class="contact-label">LinkedIn</span>
+            <!-- TODO: thay bang link LinkedIn that cua ban -->
+            <a href="https://www.linkedin.com/in/YOUR-PROFILE" target="_blank" rel="noopener">Tu Dinh</a>
+          </li>
+          <li class="card contact-card">
+            <span class="contact-label">GitHub</span>
+            <a href="https://github.com/quangtu224" target="_blank" rel="noopener">quangtu224</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
   </main>
 
-  <footer>
-    <!-- làm sau -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-name">Quang Tu Dinh</p>
+      <p class="footer-note">Erlangen, Germany &middot; Built by hand with HTML, CSS and JavaScript</p>
+    </div>
   </footer>
 
 </body>

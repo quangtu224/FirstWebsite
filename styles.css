@@ -74,8 +74,8 @@ h4 {
   line-height: 1.2;
 }
 
-/* Vien focus dung chung: nguoi dung ban phim luon nhin thay minh dang o dau.
-   :focus-visible chi hien khi dieu huong bang ban phim, khong hien khi bam chuot. */
+/* Shared focus ring so keyboard users can always see where they are.
+   :focus-visible shows it only for keyboard navigation, not for mouse clicks. */
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--accent);
@@ -111,8 +111,8 @@ button:focus-visible {
   padding: 1.5rem;
 }
 
-/* Link "nhay thang toi noi dung": an ngoai man hinh, chi hien khi focus bang Tab.
-   Nguoi dung ban phim khoi phai Tab qua ca menu moi toi duoc noi dung. */
+/* Skip link: parked off-screen, revealed only when it receives keyboard focus.
+   It saves keyboard users from tabbing through the whole menu on every visit. */
 .skip-link {
   position: absolute;
   left: -9999px;
@@ -166,13 +166,13 @@ button:focus-visible {
   color: var(--accent);
 }
 
-/* Muc menu cua section dang xem - class nay do script.js gan vao */
+/* Nav item for the section currently in view - script.js adds this class */
 .site-nav a.is-active {
   color: var(--accent);
   font-weight: 600;
 }
 
-/* Nut hamburger: an tren desktop, chi hien o media query cuoi file */
+/* Hamburger button: hidden on desktop, switched on in the media query below */
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -194,7 +194,7 @@ button:focus-visible {
   transition: transform 0.25s, opacity 0.25s;
 }
 
-/* Bien 3 gach thanh dau X khi menu dang mo */
+/* Morph the three bars into an X while the menu is open */
 .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
 }
@@ -271,7 +271,7 @@ button:focus-visible {
   width: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
-  overflow: hidden;          /* cat phan anh tho ra ngoai hinh tron */
+  overflow: hidden;          /* clip the photo corners to the circle */
   background-color: var(--border);
   color: var(--accent);
   display: grid;
@@ -283,7 +283,7 @@ button:focus-visible {
 .avatar img {
   width: 100%;
   height: 100%;
-  object-fit: cover;         /* phu kin khung vuong ma khong bop meo anh */
+  object-fit: cover;         /* fill the square without distorting the photo */
 }
 
 /* =========================================================
@@ -335,7 +335,7 @@ button:focus-visible {
 
 .entry-list {
   list-style: disc;
-  padding-left: 1.2rem;      /* tra lai thut le ma khoi reset da xoa */
+  padding-left: 1.2rem;      /* restore the indent the reset removed */
   display: grid;
   gap: 0.35rem;
 }
@@ -372,7 +372,7 @@ button:focus-visible {
 }
 
 .project-link {
-  margin-top: auto;          /* day link xuong day the, moi card cao bang nhau */
+  margin-top: auto;          /* push the link to the bottom so cards line up */
   align-self: flex-start;
   color: var(--accent);
   font-weight: 600;
@@ -473,7 +473,7 @@ button:focus-visible {
 .contact-card a {
   color: var(--accent);
   font-weight: 600;
-  word-break: break-word;    /* email dai khong lam vo the tren dien thoai */
+  word-break: break-word;    /* a long email must not blow out the card on phones */
   transition: color 0.2s;
 }
 
@@ -505,11 +505,11 @@ button:focus-visible {
 
 /* =========================================================
    13. RESPONSIVE
-   Media query luon o cuoi file: CSS chay tu tren xuong,
-   rule sau ghi de rule truoc khi cung do uu tien.
+   Media queries go last: CSS is applied top to bottom, so a later rule
+   overrides an earlier one of equal specificity.
    ========================================================= */
 
-/* Tablet: cot ngay thang cua entry qua chat -> ve mot cot */
+/* Tablet and below: the date column gets too cramped, collapse to one column */
 @media (max-width: 720px) {
   .nav-toggle {
     display: flex;
@@ -562,5 +562,53 @@ button:focus-visible {
   .section-title {
     font-size: 1.6rem;
     margin-bottom: 1.75rem;
+  }
+}
+
+/* =========================================================
+   14. SCROLL REVEAL
+   The hidden state applies only when <html> carries the "js" class, which
+   JavaScript adds itself. If the script fails, is blocked, or never runs,
+   nothing is ever hidden and the page stays fully readable.
+   ========================================================= */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  /* Animate opacity and transform only: they are the two properties the
+     browser can handle on the GPU without recalculating layout. Animating
+     `top`, `height` or `margin` instead makes the page stutter. */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger items inside the same grid so they arrive in sequence
+   instead of all snapping in at once. */
+.js .project-grid .reveal:nth-child(2),
+.js .skills-grid .reveal:nth-child(2),
+.js .contact-list .reveal:nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.js .skills-grid .reveal:nth-child(3),
+.js .contact-list .reveal:nth-child(3) {
+  transition-delay: 0.16s;
+}
+
+.js .skills-grid .reveal:nth-child(4),
+.js .contact-list .reveal:nth-child(4) {
+  transition-delay: 0.24s;
+}
+
+/* Motion like this can make people with vestibular disorders dizzy.
+   If they asked the OS to reduce motion, show the content straight away. */
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

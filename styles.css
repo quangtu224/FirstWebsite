@@ -5,9 +5,9 @@
   --bg: #FBF5ED;
   --surface: #FFFFFF;
   --text: #3F3D3B;
-  --text-muted: #7E7B77;
+  --text-muted: #726F6C;
   --accent: #775642;
-  --accent-light: #966B54;
+  --accent-light: #916851;
   --border: #DDCCC2;
 
   --font-heading: 'Questrial', sans-serif;
@@ -271,7 +271,8 @@ button:focus-visible {
   width: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
-  overflow: hidden;          /* clip the photo corners to the circle */
+  overflow: hidden;
+  /* clip the photo corners to the circle */
   background-color: var(--border);
   color: var(--accent);
   display: grid;
@@ -283,7 +284,8 @@ button:focus-visible {
 .avatar img {
   width: 100%;
   height: 100%;
-  object-fit: cover;         /* fill the square without distorting the photo */
+  object-fit: cover;
+  /* fill the square without distorting the photo */
 }
 
 /* =========================================================
@@ -294,7 +296,7 @@ button:focus-visible {
   font-size: 1.05rem;
 }
 
-.about-text + .about-text {
+.about-text+.about-text {
   margin-top: 1rem;
 }
 
@@ -335,7 +337,8 @@ button:focus-visible {
 
 .entry-list {
   list-style: disc;
-  padding-left: 1.2rem;      /* restore the indent the reset removed */
+  padding-left: 1.2rem;
+  /* restore the indent the reset removed */
   display: grid;
   gap: 0.35rem;
 }
@@ -372,7 +375,8 @@ button:focus-visible {
 }
 
 .project-link {
-  margin-top: auto;          /* push the link to the bottom so cards line up */
+  margin-top: auto;
+  /* push the link to the bottom so cards line up */
   align-self: flex-start;
   color: var(--accent);
   font-weight: 600;
@@ -473,7 +477,8 @@ button:focus-visible {
 .contact-card a {
   color: var(--accent);
   font-weight: 600;
-  word-break: break-word;    /* a long email must not blow out the card on phones */
+  word-break: break-word;
+  /* a long email must not blow out the card on phones */
   transition: color 0.2s;
 }
 

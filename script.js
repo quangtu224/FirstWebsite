@@ -1,281 +1,271 @@
-// =========================================================
-// Progressive enhancement flag
-// =========================================================
-// Mark the document as JavaScript-enabled. The scroll-reveal rules in
-// styles.css hide their elements only inside `.js`, so if this file fails to
-// load or throws an error, nothing is ever hidden and the page stays readable.
-// Runs first, before anything below has a chance to throw.
-document.documentElement.classList.add('js');
+/* =========================================================
+   Quang Tu Dinh - CV website
+   Plain JavaScript. No framework, no build step.
 
-// =========================================================
-// Mobile navigation (hamburger menu)
-// =========================================================
-// This file is loaded with `defer`, so the HTML is fully parsed before the
-// first line runs and every querySelector below is guaranteed to find its
-// element.
-const navToggle = document.querySelector('.nav-toggle');
-const siteNav = document.querySelector('.site-nav');
+   Everything here is an enhancement: the page reads fine and the
+   contact form still submits with this file removed. Each feature
+   therefore checks for its own elements and bows out quietly rather
+   than throwing and taking the features below it down with it.
+   ========================================================= */
 
-// The single source of truth for open/closed is the button's aria-expanded
-// attribute. There is deliberately no separate `isOpen` variable: two places
-// holding the same fact eventually disagree.
-function setMenu(open) {
-  // setAttribute only accepts strings, hence String().
-  navToggle.setAttribute('aria-expanded', String(open));
-  // The button has no text, so screen reader users rely on this label. It
-  // describes what the next click will do, not the current state.
-  navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-  // The second argument decides add vs remove, which keeps the class and
-  // aria-expanded in sync because both are set from the same value.
-  siteNav.classList.toggle('is-open', open);
+// Mirrors the mobile-menu breakpoint in styles.css (max-width: 720px),
+// so the desktop side starts one pixel later. Change both together.
+const DESKTOP_QUERY = '(min-width: 721px)';
+
+/* ---------------------------------------------------------
+   Progressive enhancement flag
+   --------------------------------------------------------- */
+function markJsEnabled() {
+  // The scroll-reveal rules hide their elements only inside `.js`. Setting
+  // the class from here means a blocked or broken script leaves the page
+  // fully visible instead of blank.
+  document.documentElement.classList.add('js');
 }
 
-function isMenuOpen() {
-  // getAttribute always returns a string, so compare with 'true', not true.
-  // The string 'false' is truthy, so a bare if() on it would always pass.
-  return navToggle.getAttribute('aria-expanded') === 'true';
-}
+/* ---------------------------------------------------------
+   Mobile navigation
+   --------------------------------------------------------- */
+function initMobileNav() {
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('.site-nav');
+  if (!toggle || !nav) return;
 
-navToggle.addEventListener('click', () => {
-  setMenu(!isMenuOpen());
-});
+  // Single source of truth for open/closed: the button's aria-expanded.
+  // A separate boolean would be a second copy of the same fact, and the
+  // two would drift apart. getAttribute returns a string, so compare
+  // against 'true' - the string 'false' is itself truthy.
+  const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
 
-// Event delegation: one listener on the <nav> rather than one per link.
-// Clicks bubble up from the <a>, so extra menu items need no extra code.
-siteNav.addEventListener('click', (event) => {
-  // event.target is the deepest element clicked, which may be a child of the
-  // link. closest() walks up to the <a>, or returns null if there is none.
-  if (event.target.closest('a')) {
-    // Without this the open menu would cover the section just scrolled to.
-    setMenu(false);
-  }
-});
-
-// Escape closes any popped-out UI - a convention keyboard users expect.
-// The listener sits on `document` because focus may be anywhere at the time.
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && isMenuOpen()) {
-    setMenu(false);
-    // Hand focus back to the button. Otherwise focus is lost along with the
-    // menu that held it, and the user is dumped back at the top of the page.
-    navToggle.focus();
-  }
-});
-
-// Rotating a phone or widening the window past the breakpoint hides the
-// toggle via CSS, but the `is-open` class would survive and pop the menu open
-// again on the way back down.
-// 721px, not 720px: the CSS breakpoint is max-width 720px, so 720 itself is
-// still the mobile side and both rules would apply at once.
-const desktopQuery = window.matchMedia('(min-width: 721px)');
-
-desktopQuery.addEventListener('change', (event) => {
-  if (event.matches) {
-    setMenu(false);
-  }
-});
-
-// =========================================================
-// Scroll spy: highlight the nav link of the section in view
-// =========================================================
-// Listening for the 'scroll' event would fire hundreds of times a second, and
-// measuring element positions forces the browser to recalculate layout every
-// time. IntersectionObserver is the API built for this and does the tracking
-// off the main thread.
-const navLinks = document.querySelectorAll('.site-nav a[href^="#"]');
-const sections = document.querySelectorAll('main section[id]');
-
-const spyObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      // The callback only receives entries whose state just changed, so skip
-      // the ones leaving the viewport. Acting on those too would let two
-      // sections fight over the highlight and make the menu flicker.
-      if (!entry.isIntersecting) return;
-
-      const id = entry.target.id;
-      navLinks.forEach((link) => {
-        // A single toggle both marks the current link and clears the others.
-        link.classList.toggle('is-active', link.getAttribute('href') === '#' + id);
-      });
-    });
-  },
-  {
-    // Shrink the observed area to a thin band across the middle of the screen,
-    // so only one section counts as "in view" at any moment.
-    rootMargin: '-45% 0px -45% 0px',
-  }
-);
-
-sections.forEach((section) => spyObserver.observe(section));
-
-// =========================================================
-// Scroll reveal: fade blocks in as they enter the viewport
-// =========================================================
-// Same API as the scroll spy, used differently: this one fires once per
-// element and then stops watching it. Re-hiding blocks on the way back up
-// would make the page flicker while the user scrolls around.
-const revealItems = document.querySelectorAll('.reveal');
-
-const revealObserver = new IntersectionObserver(
-  // The callback's second argument is the observer itself, which saves
-  // reaching back out to the `revealObserver` variable from inside it.
-  (entries, observer) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-
-      // CSS owns the animation; this only flips the target state and lets the
-      // transition in styles.css do the work.
-      entry.target.classList.add('is-visible');
-
-      // Done with this element, so stop watching it. Cheap on a page this
-      // size, but the habit matters when observing hundreds of items.
-      observer.unobserve(entry.target);
-    });
-  },
-  {
-    // Start the animation once 15% of the block has entered the viewport, so
-    // it is already moving by the time the user looks at it.
-    threshold: 0.15,
-  }
-);
-
-revealItems.forEach((item) => revealObserver.observe(item));
-
-// =========================================================
-// Contact form
-// =========================================================
-// The form already works without any of this: it is a plain
-// <form action method="POST">, so the browser submits it and validates
-// the required fields itself. Everything below is an enhancement -
-// inline messages instead of browser tooltips, and sending without a
-// page reload.
-
-const contactForm = document.querySelector('.contact-form');
-const formStatus = document.querySelector('.form-status');
-const submitButton = document.querySelector('.btn-submit');
-
-// Switch off the browser's own validation ONLY now that a replacement is
-// running. Putting novalidate in the HTML instead would leave people with
-// JavaScript disabled no validation at all.
-contactForm.setAttribute('novalidate', '');
-
-// Every input points at its own error paragraph through aria-describedby,
-// so the markup already says where a message belongs.
-function errorElementFor(input) {
-  return document.getElementById(input.getAttribute('aria-describedby'));
-}
-
-function setFieldError(input, message) {
-  errorElementFor(input).textContent = message;
-  input.setAttribute('aria-invalid', message ? 'true' : 'false');
-}
-
-function setStatus(message, kind) {
-  formStatus.textContent = message;
-  formStatus.classList.toggle('is-error', kind === 'error');
-  formStatus.classList.toggle('is-success', kind === 'success');
-}
-
-function setBusy(busy) {
-  submitButton.disabled = busy;
-  submitButton.textContent = busy ? 'Sending...' : 'Submit';
-}
-
-// Every field that carries an error paragraph is a field worth checking.
-const fields = contactForm.querySelectorAll('[aria-describedby]');
-
-// Turns a failing input into a sentence someone can act on.
-// Returns an empty string when the input is fine.
-function messageFor(input) {
-  // Every input exposes the <label> elements pointing at it, so the wording
-  // comes from the markup. Add a field later and this keeps working.
-  const label = input.labels[0];
-  const name = label ? label.textContent.replace('*', '').trim().toLowerCase() : 'value';
-
-  // Check valueMissing first: an empty box is also a format failure, and
-  // "Enter your email address" is more useful than "that is not an email".
-  if (input.validity.valueMissing) {
-    return input.type === 'email' ? 'Enter your email address.' : 'Enter a ' + name + '.';
+  function setOpen(open) {
+    toggle.setAttribute('aria-expanded', String(open));
+    // The button has no text, so this label is all a screen reader gets.
+    // It names the next action, not the current state.
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    nav.classList.toggle('is-open', open);
   }
 
-  if (input.validity.typeMismatch) {
-    return 'Enter a valid email address.';
-  }
+  toggle.addEventListener('click', () => setOpen(!isOpen()));
 
-  return '';
-}
+  // One listener on the <nav> instead of one per link: clicks bubble up,
+  // so extra menu items need no extra wiring.
+  nav.addEventListener('click', (event) => {
+    // closest() walks up from the deepest element clicked to the <a>.
+    // Closing matters: the open menu covers the section just scrolled to.
+    if (event.target.closest('a')) setOpen(false);
+  });
 
-// Checks every field, shows or clears each message, and returns the FIRST
-// invalid input, or null when the whole form is valid.
-function firstInvalidField() {
-  let firstInvalid = null;
-
-  fields.forEach((field) => {
-    const message = messageFor(field);
-    setFieldError(field, message);
-
-    // Deliberately no early exit: the rest of the loop is what clears stale
-    // messages from fields the person has since fixed.
-    if (message && !firstInvalid) {
-      firstInvalid = field;
+  // Escape closes any popped-out UI. It listens on the document because
+  // focus could be anywhere when the key is pressed.
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && isOpen()) {
+      setOpen(false);
+      // Without this, focus dies along with the menu that held it and the
+      // keyboard user is dumped back at the top of the page.
+      toggle.focus();
     }
   });
 
-  return firstInvalid;
+  // Widening past the breakpoint hides the toggle in CSS, but `is-open`
+  // would survive and pop the menu open again on the way back down.
+  window.matchMedia(DESKTOP_QUERY).addEventListener('change', (event) => {
+    if (event.matches) setOpen(false);
+  });
 }
 
-// Clear a message the moment the person fixes the field. Nagging while
-// they are still typing is worse than saying nothing.
-contactForm.addEventListener('input', (event) => {
-  const field = event.target;
-  if (!field.hasAttribute('aria-describedby')) return;
+/* ---------------------------------------------------------
+   Scroll spy: highlight the nav link of the section in view
+   --------------------------------------------------------- */
+function initScrollSpy() {
+  const links = document.querySelectorAll('.site-nav a[href^="#"]');
+  const sections = document.querySelectorAll('main section[id]');
+  if (!links.length || !sections.length) return;
 
-  // Only ever CLEAR here, never add. Recomputing the message on each
-  // keystroke would flash "Enter a valid email address" after the first
-  // letter, long before there is anything to complain about.
-  if (field.getAttribute('aria-invalid') === 'true' && field.checkValidity()) {
-    setFieldError(field, '');
+  // A 'scroll' listener would fire hundreds of times a second and each
+  // position measurement forces a layout recalculation. IntersectionObserver
+  // is built for this and does the tracking off the main thread.
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        // Only entries whose state just changed arrive here. Acting on the
+        // ones leaving the viewport too would let two sections fight over
+        // the highlight and make the menu flicker.
+        if (!entry.isIntersecting) return;
+
+        const target = '#' + entry.target.id;
+        // One toggle both marks the current link and clears the rest.
+        links.forEach((link) => {
+          link.classList.toggle('is-active', link.getAttribute('href') === target);
+        });
+      });
+    },
+    // Shrink the observed area to a thin band across the middle of the
+    // screen, so only one section counts as "in view" at any moment.
+    { rootMargin: '-45% 0px -45% 0px' }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+}
+
+/* ---------------------------------------------------------
+   Scroll reveal: fade blocks in as they enter the viewport
+   --------------------------------------------------------- */
+function initScrollReveal() {
+  const items = document.querySelectorAll('.reveal');
+  if (!items.length) return;
+
+  // Same API as the scroll spy, used differently: this one fires once per
+  // element. Re-hiding blocks on the way back up would make the page
+  // flicker while the reader scrolls around.
+  const observer = new IntersectionObserver(
+    (entries, self) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        // CSS owns the animation; this only flips the target state.
+        entry.target.classList.add('is-visible');
+        // Done with this element - stop watching it.
+        self.unobserve(entry.target);
+      });
+    },
+    // Start once 15% of the block has entered, so it is already moving by
+    // the time the reader looks at it.
+    { threshold: 0.15 }
+  );
+
+  items.forEach((item) => observer.observe(item));
+}
+
+/* ---------------------------------------------------------
+   Contact form
+   --------------------------------------------------------- */
+function initContactForm() {
+  const form = document.querySelector('.contact-form');
+  const status = document.querySelector('.form-status');
+  const button = document.querySelector('.btn-submit');
+  if (!form || !status || !button) return;
+
+  // Every field carries aria-describedby pointing at its own error
+  // paragraph, so the markup already says where a message belongs.
+  const fields = form.querySelectorAll('[aria-describedby]');
+
+  // Switch off the browser's own validation only now that a replacement is
+  // running. Putting novalidate in the HTML would leave people without
+  // JavaScript no validation at all.
+  form.setAttribute('novalidate', '');
+
+  function setFieldError(input, message) {
+    document.getElementById(input.getAttribute('aria-describedby')).textContent = message;
+    input.setAttribute('aria-invalid', message ? 'true' : 'false');
   }
-});
 
-contactForm.addEventListener('submit', async (event) => {
-  // Stop the normal page-reloading submit; from here the script owns it.
-  event.preventDefault();
-  setStatus('');
-
-  const invalid = firstInvalidField();
-  if (invalid) {
-    // Keyboard and screen reader users cannot see red text in the middle of
-    // the page; moving focus is how they learn what went wrong.
-    invalid.focus();
-    return;
+  function setStatus(message, kind) {
+    status.textContent = message;
+    status.classList.toggle('is-error', kind === 'error');
+    status.classList.toggle('is-success', kind === 'success');
   }
 
-  setBusy(true);
+  function setBusy(busy) {
+    button.disabled = busy;
+    button.textContent = busy ? 'Sending...' : 'Submit';
+  }
 
-  try {
-    const response = await fetch(contactForm.action, {
-      method: 'POST',
-      body: new FormData(contactForm),
-      headers: { Accept: 'application/json' },
+  // Returns a sentence the reader can act on, or '' when the field is fine.
+  function messageFor(input) {
+    // The wording comes from the <label>, so adding a field later needs no
+    // change here. Every input exposes the labels pointing at it.
+    const label = input.labels[0];
+    const name = label ? label.textContent.replace('*', '').trim().toLowerCase() : 'value';
+
+    // valueMissing first: an empty box also fails the format check, and
+    // "Enter your email address" beats "that is not an email address".
+    if (input.validity.valueMissing) {
+      return input.type === 'email' ? 'Enter your email address.' : 'Enter a ' + name + '.';
+    }
+    if (input.validity.typeMismatch) {
+      return 'Enter a valid email address.';
+    }
+    return '';
+  }
+
+  // Shows or clears every message, and returns the first invalid input.
+  function firstInvalidField() {
+    let firstInvalid = null;
+
+    fields.forEach((field) => {
+      const message = messageFor(field);
+      setFieldError(field, message);
+
+      // Deliberately no early exit: the rest of the loop is what clears
+      // stale messages from fields the reader has since fixed.
+      if (message && !firstInvalid) firstInvalid = field;
     });
 
-    // fetch only rejects when the network is unreachable - a 404 or a 500
-    // still resolves, so the status has to be checked explicitly.
-    if (response.ok) {
-      contactForm.reset();
-      // reset() restores the field values, not the messages: those are text
-      // this script wrote into the DOM, so clear them by hand.
-      fields.forEach((field) => setFieldError(field, ''));
-      setStatus('Thanks for your message. I will get back to you soon.', 'success');
-    } else {
-      setStatus('Sorry, the message could not be sent. Please email quangtu224@gmail.com instead.', 'error');
-    }
-  } catch {
-    setStatus('No connection. Please check your network, or email quangtu224@gmail.com instead.', 'error');
-  } finally {
-    // In finally, so a dropped connection never leaves the button stuck.
-    setBusy(false);
+    return firstInvalid;
   }
-});
+
+  function clearAllErrors() {
+    fields.forEach((field) => setFieldError(field, ''));
+  }
+
+  form.addEventListener('input', (event) => {
+    const field = event.target;
+    if (!field.hasAttribute('aria-describedby')) return;
+
+    // Only ever clear here, never add. Recomputing the message on each
+    // keystroke would flash "Enter a valid email address" after the first
+    // letter, long before there is anything to complain about.
+    if (field.getAttribute('aria-invalid') === 'true' && field.checkValidity()) {
+      setFieldError(field, '');
+    }
+  });
+
+  form.addEventListener('submit', async (event) => {
+    // Stop the page-reloading submit; from here the script owns it.
+    event.preventDefault();
+    setStatus('');
+
+    const invalid = firstInvalidField();
+    if (invalid) {
+      // Keyboard and screen reader users cannot see red text in the middle
+      // of the page; moving focus is how they find out what went wrong.
+      invalid.focus();
+      return;
+    }
+
+    setBusy(true);
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+
+      // fetch only rejects when the network is unreachable: a 404 or a 500
+      // still resolves, so the status has to be checked explicitly.
+      if (response.ok) {
+        form.reset();
+        // reset() restores the values, not the messages - those are text
+        // this script wrote into the DOM.
+        clearAllErrors();
+        setStatus('Thanks for your message. I will get back to you soon.', 'success');
+      } else {
+        setStatus('Sorry, the message could not be sent. Please email quangtu224@gmail.com instead.', 'error');
+      }
+    } catch {
+      setStatus('No connection. Please check your network, or email quangtu224@gmail.com instead.', 'error');
+    } finally {
+      // In finally, so a dropped connection never leaves the button stuck.
+      setBusy(false);
+    }
+  });
+}
+
+/* ---------------------------------------------------------
+   Start
+   --------------------------------------------------------- */
+markJsEnabled();
+initMobileNav();
+initScrollSpy();
+initScrollReveal();
+initContactForm();

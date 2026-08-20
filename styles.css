@@ -5,24 +5,26 @@
    large corner radius, no borders and no shadows.
    ========================================================= */
 :root {
+  /* Two page colours carry the whole design. */
   --bg: #FBF5ED;
-  /* page */
+  /* cream page */
   --card: #DDCCC2;
   /* beige content cards */
-  --surface: #FFFFFF;
+
+  /* Black is the accent, used only for feature cards and the nav pill. */
   --ink: #0A0A0A;
-  /* black feature cards */
   --on-ink: #FBF5ED;
-  /* text on black */
+
+  /* Text. --muted and --accent are darkened from the template values so
+     they clear WCAG AA on the beige cards as well as on the cream page. */
   --text: #3F3D3B;
   --muted: #5A5855;
-  /* passes WCAG AA on cream AND on beige */
   --accent: #72523F;
-  /* darkened so it also passes on beige */
 
   --font-heading: 'Questrial', sans-serif;
   --font-body: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
 
+  /* Shape and rhythm. --gap is the distance between every card. */
   --radius: 24px;
   --gap: 1.25rem;
   --header-height: 5.5rem;
@@ -367,19 +369,14 @@ button:focus-visible {
 /* =========================================================
    7. ABOUT
    ========================================================= */
-.about-panel p+p,
-.contact-lead p+p {
+.about-panel p+p {
   margin-top: 1rem;
 }
 
-.about-panel p,
-.contact-lead p {
+.about-panel p {
   max-width: 78ch;
 }
 
-.contact-lead {
-  margin-bottom: var(--gap);
-}
 
 /* =========================================================
    8. ENTRY (shared by Experience and Education)
@@ -551,285 +548,7 @@ button:focus-visible {
 }
 
 /* =========================================================
-   12. FOOTER
-   ========================================================= */
-.site-footer {
-  padding-bottom: 1.5rem;
-}
-
-.footer-name {
-  font-family: var(--font-heading);
-  font-size: 1.3rem;
-}
-
-.footer-note {
-  font-size: 0.9rem;
-  opacity: 0.75;
-  margin-top: 0.35rem;
-}
-
-/* =========================================================
-   13. SCROLL REVEAL
-   The hidden state applies only when <html> carries the "js"
-   class, which JavaScript adds itself. If the script fails or
-   is blocked, nothing is hidden and the page stays readable.
-   ========================================================= */
-.js .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  /* Animate opacity and transform only: they are the two properties
-     the browser can handle on the GPU without recalculating layout. */
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.js .reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
-.js .pair-grid .reveal:nth-child(2),
-.js .contact-list .reveal:nth-child(2) {
-  transition-delay: 0.08s;
-}
-
-.js .pair-grid .reveal:nth-child(3),
-.js .contact-list .reveal:nth-child(3) {
-  transition-delay: 0.16s;
-}
-
-.js .pair-grid .reveal:nth-child(4),
-.js .contact-list .reveal:nth-child(4) {
-  transition-delay: 0.24s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .js .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
-
-/* =========================================================
-   14. RESPONSIVE
-   ========================================================= */
-@media (max-width: 900px) {
-
-  /* One column: the portrait moves under the name block. */
-  .hero-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-name,
-  .hero-lead,
-  .hero-contact,
-  .hero-photo {
-    grid-column: 1;
-  }
-
-  .hero-photo {
-    grid-row: auto;
-    max-height: 60vh;
-  }
-
-  .entry {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-
-  .pair-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 720px) {
-  :root {
-    --radius: 20px;
-  }
-
-  .nav-toggle {
-    display: flex;
-  }
-
-  .site-nav {
-    position: absolute;
-    top: calc(100% + 0.5rem);
-    left: 0;
-    right: 0;
-    display: none;
-    padding: 0.5rem 1.5rem 1rem;
-    background-color: var(--ink);
-    border-radius: var(--radius);
-  }
-
-  .site-nav.is-open {
-    display: block;
-  }
-
-  .site-nav ul {
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .site-nav li+li {
-    border-top: 1px solid rgba(251, 245, 237, 0.2);
-  }
-
-  .site-nav a {
-    display: block;
-    padding: 0.85rem 0;
-  }
-
-  .hero-contact {
-    grid-template-columns: 1fr;
-  }
-
-  .contact-tile {
-    min-height: 84px;
-  }
-}
-
-/* =========================================================
-   15. PRINT
-   The bento look is for screens. On paper the cards, the black
-   heading blocks and the portrait would eat toner and pages, so
-   the design collapses back to a plain document.
-   ========================================================= */
-@media print {
-
-  .site-header,
-  .skip-link,
-  .site-footer,
-  .hero-photo {
-    display: none;
-  }
-
-  /* CRITICAL: blocks the reader never scrolled to are still at
-     opacity 0, and the browser prints them exactly as they are. */
-  .js .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  body {
-    background: #fff;
-    color: #000;
-    /* pt, not px: print is measured in physical units. */
-    font-size: 11pt;
-    line-height: 1.4;
-  }
-
-  .container {
-    max-width: none;
-    padding: 0;
-  }
-
-  /* Cards become plain blocks with a hairline rule instead of fills. */
-  .panel,
-  .contact-tile,
-  .tag {
-    background: none;
-    border-radius: 0;
-    padding: 0;
-  }
-
-  .panel {
-    padding-bottom: 0.75rem;
-  }
-
-  .tag {
-    padding: 0;
-  }
-
-  .tag:not(:last-child)::after {
-    content: ",";
-  }
-
-  .tag-list {
-    gap: 0.35rem;
-  }
-
-  /* The black heading cards turn back into ordinary headings. */
-  .section-title {
-    display: block;
-    min-height: 0;
-    /* the radius would leave curled ends on the rule */
-    border-radius: 0;
-    padding: 0 0 0.3rem;
-    margin-bottom: 0.9rem;
-    background: none;
-    color: #000;
-    border-bottom: 1px solid #999;
-    font-size: 15pt;
-  }
-
-  .hero-name {
-    min-height: 0;
-    background: none;
-    color: #000;
-    padding: 0;
-  }
-
-  .hero-name h1 {
-    font-size: 24pt;
-  }
-
-  .hero-grid,
-  .pair-grid,
-  .hero-contact,
-  .contact-list {
-    display: block;
-  }
-
-  .contact-tile,
-  .contact-card {
-    min-height: 0;
-    margin-bottom: 0.25rem;
-  }
-
-  .section {
-    padding-bottom: 0.75rem;
-  }
-
-  .entry-place,
-  .entry-date,
-  .entry-text,
-  .project-subtitle,
-  .contact-label,
-  .contact-card a,
-  .project-link,
-  .language-level,
-  .hero-eyebrow {
-    color: #000;
-  }
-
-  /* Never split one job, one degree or one project across two pages. */
-  .entry,
-  .project,
-  .skill-group {
-    break-inside: avoid;
-  }
-
-  .section-title,
-  .entry-role,
-  .project-title,
-  .skill-heading {
-    break-after: avoid;
-  }
-
-  /* Links do nothing on paper, so spell the destination out. */
-  .contact-tile a[href^="http"]::after,
-  .project-link[href^="http"]::after,
-  .contact-card a[href^="http"]::after {
-    content: " (" attr(href) ")";
-    font-size: 0.85em;
-    word-break: break-all;
-  }
-}
-
-/* =========================================================
-   16. CONTACT FORM
+   12. CONTACT FORM
    The page is static and cannot send mail. The form POSTs to a
    third-party form backend, which forwards it by email. Because
    it is a plain <form action method="POST">, it still works with
@@ -960,10 +679,282 @@ button:focus-visible {
   }
 }
 
-@media print {
+/* =========================================================
+   13. FOOTER
+   ========================================================= */
+.site-footer {
+  padding-bottom: 1.5rem;
+}
 
-  .form-panel,
-  .contact-form {
-    display: none;
+.footer-name {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+}
+
+.footer-note {
+  font-size: 0.9rem;
+  opacity: 0.75;
+  margin-top: 0.35rem;
+}
+
+/* =========================================================
+   14. SCROLL REVEAL
+   The hidden state applies only when <html> carries the "js"
+   class, which JavaScript adds itself. If the script fails or
+   is blocked, nothing is hidden and the page stays readable.
+   ========================================================= */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  /* Animate opacity and transform only: they are the two properties
+     the browser can handle on the GPU without recalculating layout. */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.js .pair-grid .reveal:nth-child(2),
+.js .contact-list .reveal:nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.js .pair-grid .reveal:nth-child(3),
+.js .contact-list .reveal:nth-child(3) {
+  transition-delay: 0.16s;
+}
+
+.js .pair-grid .reveal:nth-child(4),
+.js .contact-list .reveal:nth-child(4) {
+  transition-delay: 0.24s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
+
+/* =========================================================
+   15. RESPONSIVE
+   ========================================================= */
+@media (max-width: 900px) {
+
+  /* One column: the portrait moves under the name block. */
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-name,
+  .hero-lead,
+  .hero-contact,
+  .hero-photo {
+    grid-column: 1;
+  }
+
+  .hero-photo {
+    grid-row: auto;
+    max-height: 60vh;
+  }
+
+  .entry {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .pair-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --radius: 20px;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .site-nav {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    display: none;
+    padding: 0.5rem 1.5rem 1rem;
+    background-color: var(--ink);
+    border-radius: var(--radius);
+  }
+
+  .site-nav.is-open {
+    display: block;
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .site-nav li+li {
+    border-top: 1px solid rgba(251, 245, 237, 0.2);
+  }
+
+  .site-nav a {
+    display: block;
+    padding: 0.85rem 0;
+  }
+
+  .hero-contact {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-tile {
+    min-height: 84px;
+  }
+}
+
+/* =========================================================
+   16. PRINT
+   The bento look is for screens. On paper the cards, the black
+   heading blocks and the portrait would eat toner and pages, so
+   the design collapses back to a plain document.
+   ========================================================= */
+@media print {
+
+  .site-header,
+  .skip-link,
+  .site-footer,
+  .form-panel,
+  .hero-photo {
+    display: none;
+  }
+
+  /* CRITICAL: blocks the reader never scrolled to are still at
+     opacity 0, and the browser prints them exactly as they are. */
+  .js .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    /* pt, not px: print is measured in physical units. */
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  .container {
+    max-width: none;
+    padding: 0;
+  }
+
+  /* Cards become plain blocks with a hairline rule instead of fills. */
+  .panel,
+  .contact-tile,
+  .tag {
+    background: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .panel {
+    padding-bottom: 0.75rem;
+  }
+
+  .tag {
+    padding: 0;
+  }
+
+  .tag:not(:last-child)::after {
+    content: ",";
+  }
+
+  .tag-list {
+    gap: 0.35rem;
+  }
+
+  /* The black heading cards turn back into ordinary headings. */
+  .section-title {
+    display: block;
+    min-height: 0;
+    /* the radius would leave curled ends on the rule */
+    border-radius: 0;
+    padding: 0 0 0.3rem;
+    margin-bottom: 0.9rem;
+    background: none;
+    color: #000;
+    border-bottom: 1px solid #999;
+    font-size: 15pt;
+  }
+
+  .hero-name {
+    min-height: 0;
+    background: none;
+    color: #000;
+    padding: 0;
+  }
+
+  .hero-name h1 {
+    font-size: 24pt;
+  }
+
+  .hero-grid,
+  .pair-grid,
+  .hero-contact,
+  .contact-list {
+    display: block;
+  }
+
+  .contact-tile,
+  .contact-card {
+    min-height: 0;
+    margin-bottom: 0.25rem;
+  }
+
+  .section {
+    padding-bottom: 0.75rem;
+  }
+
+  .entry-place,
+  .entry-date,
+  .entry-text,
+  .project-subtitle,
+  .contact-label,
+  .contact-card a,
+  .project-link,
+  .language-level,
+  .hero-eyebrow {
+    color: #000;
+  }
+
+  /* Never split one job, one degree or one project across two pages. */
+  .entry,
+  .project,
+  .skill-group {
+    break-inside: avoid;
+  }
+
+  .section-title,
+  .entry-role,
+  .project-title,
+  .skill-heading {
+    break-after: avoid;
+  }
+
+  /* Links do nothing on paper, so spell the destination out. */
+  .contact-tile a[href^="http"]::after,
+  .project-link[href^="http"]::after,
+  .contact-card a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+}
+

@@ -301,7 +301,7 @@ button:focus-visible {
 }
 
 /* =========================================================
-   8. ENTRY (dung chung cho Experience va Education)
+   8. ENTRY (shared by Experience and Education)
    ========================================================= */
 .entry {
   display: grid;
@@ -615,5 +615,126 @@ button:focus-visible {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+}
+/* =========================================================
+   15. PRINT
+   A CV site gets printed. Ctrl+P should produce a clean document,
+   not a screenshot of the screen design.
+   ========================================================= */
+@media print {
+  /* Screen furniture that carries no meaning on paper. */
+  .site-header,
+  .skip-link,
+  .site-footer {
+    display: none;
+  }
+
+  /* CRITICAL: blocks the reader never scrolled to are still at opacity 0,
+     and the browser prints them exactly as they are. Without this override
+     most of the CV comes out blank. */
+  .js .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Cream on paper wastes toner, and most printers drop background colours
+     by default anyway - so commit to black on white. */
+  body {
+    background: #fff;
+    color: #000;
+    /* pt, not px: print is measured in physical units. */
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  .card,
+  .tag,
+  .card .tag {
+    background: #fff;
+  }
+
+  .card,
+  .tag,
+  .entry,
+  .section-title,
+  .language-list li {
+    border-color: #999;
+  }
+
+  /* Muted greys and warm browns turn to mush in greyscale. */
+  .hero-tagline,
+  .hero-eyebrow,
+  .hero-contact,
+  .entry-place,
+  .entry-date,
+  .entry-text,
+  .project-subtitle,
+  .skill-heading,
+  .project-link,
+  .contact-label,
+  .contact-card a,
+  .language-level {
+    color: #000;
+  }
+
+  /* Tighten the vertical rhythm: 4rem of air reads well on screen and
+     wastes half a page on paper. */
+  .hero {
+    padding: 0 0 1rem;
+  }
+
+  .section {
+    padding: 0.75rem 0;
+  }
+
+  .container {
+    max-width: none;
+    padding: 0;
+  }
+
+  .hero h1 {
+    font-size: 24pt;
+  }
+
+  .section-title {
+    font-size: 15pt;
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.3rem;
+  }
+
+  .hero-photo {
+    flex: 0 0 110px;
+  }
+
+  /* Never split one job, one degree or one project across two pages. */
+  .entry,
+  .card,
+  .skill-group {
+    break-inside: avoid;
+  }
+
+  /* Keep a heading attached to whatever follows it. */
+  .section-title,
+  .entry-role,
+  .project-title,
+  .skill-heading {
+    break-after: avoid;
+  }
+
+  .language-list,
+  .contact-list {
+    break-inside: avoid;
+  }
+
+  /* Links do nothing on paper, so spell the destination out. attr() is one
+     of the few ways CSS can read data out of the HTML. */
+  .hero-contact a[href^="http"]::after,
+  .project-link[href^="http"]::after,
+  .contact-card a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    word-break: break-all;
   }
 }

@@ -1,0 +1,22 @@
+# Source assets kept locally only - the site does not serve these.
+# Keep your own backup outside the repo before removing them from git.
+img/*-original.*
+
+# Scratch files used while debugging layout
+_debug.html
+_openstate.html
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS clutter
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Logs
+*.log

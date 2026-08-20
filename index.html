@@ -10,9 +10,11 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://quangtu224.github.io/FirstWebsite/">
   <meta property="og:title" content="Quang Tu Dinh - Computer Science Student">
-  <meta property="og:description" content="Computer Science student at FAU Erlangen-N&uuml;rnberg and working student in IT support, focused on DevOps, cloud technologies and the automation of software delivery.">
+  <meta property="og:description"
+    content="Computer Science student at FAU Erlangen-N&uuml;rnberg and working student in IT support, focused on DevOps, cloud technologies and the automation of software delivery.">
   <meta property="og:image" content="https://quangtu224.github.io/FirstWebsite/img/og-image.png">
-  <meta property="og:image:alt" content="Portrait of Quang Tu Dinh beside the words Computer Science Student, FAU Erlangen-N&uuml;rnberg.">
+  <meta property="og:image:alt"
+    content="Portrait of Quang Tu Dinh beside the words Computer Science Student, FAU Erlangen-N&uuml;rnberg.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,24 +29,27 @@
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
-    <div class="container header-inner">
-      <a href="#top" class="brand">Quang Tu Dinh</a>
+    <div class="container">
+      <div class="header-inner">
+        <a href="#top" class="brand">Quang Tu Dinh</a>
 
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-      </button>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav"
+          aria-label="Open menu">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
 
-      <nav id="primary-nav" class="site-nav" aria-label="Main navigation">
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
+        <nav id="primary-nav" class="site-nav" aria-label="Main navigation">
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </header>
 
@@ -52,32 +57,62 @@
 
     <!-- ============ HERO ============ -->
     <section class="hero">
-      <div class="container hero-inner">
+      <div class="container hero-grid">
 
-        <div class="hero-text reveal">
+        <div class="hero-name panel-ink reveal">
           <p class="hero-eyebrow">Hello, my name is</p>
-          <h1>Quang Tu Dinh</h1>
-          <p class="hero-tagline">
-            Computer Science student at FAU Erlangen-N&uuml;rnberg and working student in IT support, with a strong
-            interest in DevOps, cloud technologies, and automation. I enjoy building reliable workflows, working with
-            data, and exploring how software can move efficiently from code to production through modern CI/CD
-            pipelines.
-          </p>
-
-          <ul class="hero-contact">
-            <li><a href="mailto:quangtu224@gmail.com">quangtu224@gmail.com</a></li>
-            <li><a href="tel:+491795488773">+49 179 5488773</a></li>
-            <li>Erlangen, Germany</li>
-            <li><a href="https://github.com/quangtu224" target="_blank" rel="noopener">GitHub</a></li>
-            <li><a href="https://www.linkedin.com/in/quangtudinh" target="_blank" rel="noopener">LinkedIn</a></li>
-          </ul>
+          <h1>Quang Tu<br>Dinh</h1>
         </div>
 
         <div class="hero-photo reveal">
-          <div class="avatar">
-            <img src="img/avatar.jpg" alt="Quang Tu Dinh" width="440" height="440">
-          </div>
+          <img src="img/portrait.jpg" alt="Quang Tu Dinh" width="720" height="1200">
         </div>
+
+        <div class="hero-lead panel reveal">
+          <p>
+            Computer Science student at FAU Erlangen-N&uuml;rnberg and working student in IT support,
+            with a strong interest in DevOps, cloud technologies and automation.
+          </p>
+        </div>
+
+        <ul class="hero-contact reveal">
+          <li class="contact-tile">
+            <svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="m3.5 7 8.5 6 8.5-6" />
+            </svg>
+            <a href="mailto:quangtu224@gmail.com">quangtu224@gmail.com</a>
+          </li>
+          <li class="contact-tile">
+            <svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M7 3h3l2 5-2.5 1.5a12 12 0 0 0 5 5L16 12l5 2v3a2 2 0 0 1-2.2 2A16 16 0 0 1 5 5.2 2 2 0 0 1 7 3z" />
+            </svg>
+            <a href="tel:+491795488773">+49 179 5488773</a>
+          </li>
+          <li class="contact-tile">
+            <svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z" />
+              <circle cx="12" cy="10" r="2.5" />
+            </svg>
+            <span>Erlangen, Germany</span>
+          </li>
+          <li class="contact-tile">
+            <svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="3.5" width="17" height="17" rx="2" />
+              <path d="M8 10.5V17M12 17v-3.6a1.9 1.9 0 0 1 3.8 0V17" />
+              <circle cx="8" cy="7.4" r="0.9" />
+            </svg>
+            <a href="https://www.linkedin.com/in/quangtudinh" target="_blank" rel="noopener">LinkedIn</a>
+          </li>
+          <li class="contact-tile contact-tile-wide">
+            <svg class="tile-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M9 19.5c-4 1.2-4-2.2-5.6-2.7M15 21v-3.3a2.9 2.9 0 0 0-.8-2.2c2.7-.3 5.5-1.3 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.3 1.3a11.4 11.4 0 0 0-6 0C6.7 2.8 5.7 3.1 5.7 3.1a4.3 4.3 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.3 9.5c0 4.7 2.8 5.7 5.5 6a2.9 2.9 0 0 0-.8 2.2V21" />
+            </svg>
+            <a href="https://github.com/quangtu224" target="_blank" rel="noopener">github.com/quangtu224</a>
+          </li>
+        </ul>
 
       </div>
     </section>
@@ -86,26 +121,26 @@
     <section id="about" class="section">
       <div class="container">
         <h2 class="section-title reveal">About</h2>
-        <p class="about-text reveal">
-          I am currently in my seventh semester of a Bachelor of Science in Computer Science at
-          Friedrich-Alexander-Universit&auml;t Erlangen-N&uuml;rnberg. Alongside my studies, I work as a working student
-          in IT
-          support, where I build Power BI dashboards, prepare and process data with SQL, and automate recurring
-          reporting workflows.
 
-          Through my studies, I have developed a strong foundation in software development, distributed systems, cloud
-          computing, and computer networks. I am particularly interested in DevOps and the automation of software
-          delivery — from version control and automated testing to containerization, CI/CD pipelines, and deployment to
-          cloud environments.
-
-          I am currently looking for an internship, working student position, or Bachelor’s thesis opportunity where I
-          can deepen my practical experience in DevOps, CI/CD, cloud infrastructure, and software delivery automation.
-        </p>
-        <p class="about-text reveal">
-          My coursework has taken me from data structures and algorithms through to distributed
-          systems and cloud computing, and my own projects tend to end up somewhere on the web.
-          I am currently looking for an internship or working student role in software development.
-        </p>
+        <div class="panel about-panel reveal">
+          <p>
+            I am currently in my seventh semester of a Bachelor of Science in Computer Science at
+            Friedrich-Alexander-Universit&auml;t Erlangen-N&uuml;rnberg. Alongside my studies I work as a
+            working student in IT support, where I build Power BI dashboards, prepare and process data
+            with SQL, and automate recurring reporting workflows.
+          </p>
+          <p>
+            Through my studies I have developed a strong foundation in software development, distributed
+            systems, cloud computing and computer networks. I am particularly interested in DevOps and the
+            automation of software delivery &mdash; from version control and automated testing to
+            containerisation, CI/CD pipelines and deployment to cloud environments.
+          </p>
+          <p>
+            I am currently looking for an internship, working student position or Bachelor&rsquo;s thesis
+            opportunity where I can deepen my practical experience in DevOps, CI/CD, cloud infrastructure
+            and software delivery automation.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -114,7 +149,7 @@
       <div class="container">
         <h2 class="section-title reveal">Experience</h2>
 
-        <article class="entry reveal">
+        <article class="entry panel reveal">
           <div class="entry-meta">
             <p class="entry-org">Kiwa BCS &Ouml;ko-Garantie GmbH</p>
             <p class="entry-place">N&uuml;rnberg, Germany</p>
@@ -139,35 +174,36 @@
       <div class="container">
         <h2 class="section-title reveal">Education</h2>
 
-        <article class="entry reveal">
-          <div class="entry-meta">
-            <p class="entry-org">FAU Erlangen-N&uuml;rnberg</p>
-            <p class="entry-place">Erlangen, Germany</p>
-            <p class="entry-date">10/2023 &ndash; present</p>
-          </div>
-          <div class="entry-body">
-            <h3 class="entry-role">B.Sc. Computer Science</h3>
-            <p class="entry-text">
-              Focus on data structures and algorithms, object-oriented programming, design patterns,
-              databases, and distributed and cloud systems.
-            </p>
-          </div>
-        </article>
+        <div class="pair-grid">
+          <article class="entry entry-stacked panel reveal">
+            <div class="entry-meta">
+              <p class="entry-org">FAU Erlangen-N&uuml;rnberg</p>
+              <p class="entry-place">Erlangen, Germany</p>
+              <p class="entry-date">10/2023 &ndash; present</p>
+            </div>
+            <div class="entry-body">
+              <h3 class="entry-role">B.Sc. Computer Science</h3>
+              <p class="entry-text">
+                Focus on data structures and algorithms, object-oriented programming, design patterns,
+                databases, and distributed and cloud systems.
+              </p>
+            </div>
+          </article>
 
-        <article class="entry reveal">
-          <div class="entry-meta">
-            <p class="entry-org">Karlsruhe Institute of Technology</p>
-            <p class="entry-place">Karlsruhe, Germany</p>
-            <p class="entry-date">02/2022 &ndash; 02/2023</p>
-          </div>
-          <div class="entry-body">
-            <h3 class="entry-role">Studienkolleg, Technical Course (T-Kurs)</h3>
-            <p class="entry-text">
-              Preparatory year qualifying for technical degree programmes at German universities.
-            </p>
-          </div>
-        </article>
-
+          <article class="entry entry-stacked panel reveal">
+            <div class="entry-meta">
+              <p class="entry-org">Karlsruhe Institute of Technology</p>
+              <p class="entry-place">Karlsruhe, Germany</p>
+              <p class="entry-date">02/2022 &ndash; 02/2023</p>
+            </div>
+            <div class="entry-body">
+              <h3 class="entry-role">Studienkolleg, Technical Course (T-Kurs)</h3>
+              <p class="entry-text">
+                Preparatory year qualifying for technical degree programmes at German universities.
+              </p>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -176,9 +212,9 @@
       <div class="container">
         <h2 class="section-title reveal">Projects</h2>
 
-        <div class="project-grid">
+        <div class="pair-grid">
 
-          <article class="card project reveal">
+          <article class="panel project reveal">
             <h3 class="project-title">WebChat</h3>
             <p class="project-subtitle">Full-stack web application</p>
             <ul class="entry-list">
@@ -198,7 +234,7 @@
             </a>
           </article>
 
-          <article class="card project reveal">
+          <article class="panel project reveal">
             <h3 class="project-title">Middleware and Cloud Computing</h3>
             <p class="project-subtitle">Distributed systems coursework</p>
             <ul class="entry-list">
@@ -228,9 +264,9 @@
       <div class="container">
         <h2 class="section-title reveal">Skills</h2>
 
-        <div class="skills-grid">
+        <div class="pair-grid">
 
-          <div class="skill-group reveal">
+          <div class="skill-group panel reveal">
             <h3 class="skill-heading">Programming Languages</h3>
             <ul class="tag-list">
               <li class="tag">C++</li>
@@ -241,7 +277,7 @@
             </ul>
           </div>
 
-          <div class="skill-group reveal">
+          <div class="skill-group panel reveal">
             <h3 class="skill-heading">Web Technologies</h3>
             <ul class="tag-list">
               <li class="tag">HTML</li>
@@ -252,7 +288,7 @@
             </ul>
           </div>
 
-          <div class="skill-group reveal">
+          <div class="skill-group panel reveal">
             <h3 class="skill-heading">Data &amp; Reporting</h3>
             <ul class="tag-list">
               <li class="tag">Power BI</li>
@@ -262,7 +298,7 @@
             </ul>
           </div>
 
-          <div class="skill-group reveal">
+          <div class="skill-group panel reveal">
             <h3 class="skill-heading">Computer Science Foundations</h3>
             <ul class="tag-list">
               <li class="tag">Data Structures &amp; Algorithms</li>
@@ -273,14 +309,16 @@
             </ul>
           </div>
 
-        </div>
+          <div class="skill-group panel languages-panel reveal">
+            <h3 class="skill-heading">Languages</h3>
+            <ul class="language-list">
+              <li><span class="language-name">Vietnamese</span> <span class="language-level">Native</span></li>
+              <li><span class="language-name">German</span> <span class="language-level">Advanced (C1)</span></li>
+              <li><span class="language-name">English</span> <span class="language-level">Fluent</span></li>
+            </ul>
+          </div>
 
-        <h3 class="skill-heading languages-heading">Languages</h3>
-        <ul class="language-list reveal">
-          <li><span class="language-name">Vietnamese</span> <span class="language-level">Native</span></li>
-          <li><span class="language-name">German</span> <span class="language-level">Advanced (C1)</span></li>
-          <li><span class="language-name">English</span> <span class="language-level">Fluent</span></li>
-        </ul>
+        </div>
       </div>
     </section>
 
@@ -288,25 +326,76 @@
     <section id="contact" class="section">
       <div class="container">
         <h2 class="section-title reveal">Contact</h2>
-        <p class="about-text reveal">
-          I am open to internship and working student opportunities in software development.
-          The quickest way to reach me is by email.
-        </p>
+
+        <div class="panel form-panel reveal">
+          <div class="form-intro">
+            <h3>Reach out for opportunities</h3>
+            <p>
+              I am open to internship and working student positions in software development.
+              Send a message here, or write to me directly at
+              <a href="mailto:quangtu224@gmail.com">quangtu224@gmail.com</a>.
+            </p>
+          </div>
+
+          <!-- The page is static, so it cannot send mail itself. The form POSTs to a
+               form backend, which forwards the message by email.
+               TODO: replace YOUR-FORM-ID with the endpoint from your Formspree form. -->
+          <form class="contact-form" action="https://formspree.io/f/mkjwkagd" method="POST">
+            <input type="hidden" name="_subject" value="New message from your CV website">
+
+            <div class="field">
+              <label for="first-name">First name <span class="req">*</span></label>
+              <input id="first-name" name="firstName" type="text" autocomplete="given-name"
+                aria-describedby="first-name-error" required>
+              <p class="field-error" id="first-name-error"></p>
+            </div>
+
+            <div class="field">
+              <label for="last-name">Last name <span class="req">*</span></label>
+              <input id="last-name" name="lastName" type="text" autocomplete="family-name"
+                aria-describedby="last-name-error" required>
+              <p class="field-error" id="last-name-error"></p>
+            </div>
+
+            <div class="field">
+              <label for="email">Email <span class="req">*</span></label>
+              <input id="email" name="email" type="email" autocomplete="email" aria-describedby="email-error" required>
+              <p class="field-error" id="email-error"></p>
+            </div>
+
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="4" aria-describedby="message-error"></textarea>
+              <p class="field-error" id="message-error"></p>
+            </div>
+
+            <!-- Honeypot: invisible to people, irresistible to spam bots. Anything
+                 that fills it in gets the submission dropped by the backend. -->
+            <div class="honeypot" aria-hidden="true">
+              <label for="company">Company</label>
+              <input id="company" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <p class="form-status" role="status" aria-live="polite"></p>
+
+            <button class="btn-submit" type="submit">Submit</button>
+          </form>
+        </div>
 
         <ul class="contact-list">
-          <li class="card contact-card reveal">
+          <li class="panel contact-card reveal">
             <span class="contact-label">Email</span>
             <a href="mailto:quangtu224@gmail.com">quangtu224@gmail.com</a>
           </li>
-          <li class="card contact-card reveal">
+          <li class="panel contact-card reveal">
             <span class="contact-label">Phone</span>
             <a href="tel:+491795488773">+49 179 5488773</a>
           </li>
-          <li class="card contact-card reveal">
+          <li class="panel contact-card reveal">
             <span class="contact-label">LinkedIn</span>
             <a href="https://www.linkedin.com/in/quangtudinh" target="_blank" rel="noopener">Tu Dinh</a>
           </li>
-          <li class="card contact-card reveal">
+          <li class="panel contact-card reveal">
             <span class="contact-label">GitHub</span>
             <a href="https://github.com/quangtu224" target="_blank" rel="noopener">quangtu224</a>
           </li>
@@ -317,9 +406,11 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <p class="footer-name">Quang Tu Dinh</p>
-      <p class="footer-note">Erlangen, Germany &middot; Built by hand with HTML, CSS and JavaScript</p>
+    <div class="container">
+      <div class="footer-inner panel-ink">
+        <p class="footer-name">Quang Tu Dinh</p>
+        <p class="footer-note">Erlangen, Germany &middot; Built by hand with HTML, CSS and JavaScript</p>
+      </div>
     </div>
   </footer>
 

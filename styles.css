@@ -1,20 +1,31 @@
 /* =========================================================
    1. DESIGN TOKENS
+   Palette and shapes taken from the Wix "Student CV (Fresh)"
+   template: cream page, beige cards, solid black feature cards,
+   large corner radius, no borders and no shadows.
    ========================================================= */
 :root {
   --bg: #FBF5ED;
+  /* page */
+  --card: #DDCCC2;
+  /* beige content cards */
   --surface: #FFFFFF;
+  --ink: #0A0A0A;
+  /* black feature cards */
+  --on-ink: #FBF5ED;
+  /* text on black */
   --text: #3F3D3B;
-  --text-muted: #726F6C;
-  --accent: #775642;
-  --accent-light: #916851;
-  --border: #DDCCC2;
+  --muted: #5A5855;
+  /* passes WCAG AA on cream AND on beige */
+  --accent: #72523F;
+  /* darkened so it also passes on beige */
 
   --font-heading: 'Questrial', sans-serif;
   --font-body: system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
 
-  --header-height: 4.5rem;
-  --radius: 10px;
+  --radius: 24px;
+  --gap: 1.25rem;
+  --header-height: 5.5rem;
 }
 
 /* =========================================================
@@ -71,56 +82,92 @@ h2,
 h3,
 h4 {
   font-family: var(--font-heading);
-  line-height: 1.2;
+  font-weight: 400;
+  line-height: 1.1;
 }
 
-/* Shared focus ring so keyboard users can always see where they are.
-   :focus-visible shows it only for keyboard navigation, not for mouse clicks. */
+/* Shared focus ring so keyboard users can always see where they are. */
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 4px;
+}
+
+.panel-ink a:focus-visible,
+.panel-ink button:focus-visible {
+  outline-color: var(--on-ink);
 }
 
 /* =========================================================
-   4. LAYOUT UTILITIES
+   4. LAYOUT PRIMITIVES
+   The whole page is one grid of cards. Two card types carry it:
+   .panel (beige, content) and .panel-ink (black, headings).
    ========================================================= */
 .container {
-  max-width: 1100px;
+  max-width: 1240px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
+/* Uniform gap between every card on the page, including across
+   section boundaries - that even rhythm is what makes a bento
+   layout read as one grid rather than stacked sections. */
 .section {
-  padding: 4rem 0;
+  padding-bottom: var(--gap);
   scroll-margin-top: var(--header-height);
 }
 
-.section-title {
-  font-size: 2rem;
-  margin-bottom: 2.5rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid var(--border);
-}
-
-.card {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
+.panel {
+  background-color: var(--card);
   border-radius: var(--radius);
-  padding: 1.5rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
 }
 
-/* Skip link: parked off-screen, revealed only when it receives keyboard focus.
-   It saves keyboard users from tabbing through the whole menu on every visit. */
+.panel-ink {
+  background-color: var(--ink);
+  color: var(--on-ink);
+  border-radius: var(--radius);
+  padding: clamp(1.75rem, 3.5vw, 3rem);
+}
+
+/* Section headings are not text on the page - they are their own
+   black card spanning the full width. */
+.section-title {
+  display: flex;
+  align-items: center;
+  min-height: clamp(110px, 14vw, 180px);
+  margin-bottom: var(--gap);
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 3vw, 2.75rem);
+  background-color: var(--ink);
+  color: var(--on-ink);
+  border-radius: var(--radius);
+  font-size: clamp(1.75rem, 4.5vw, 3rem);
+}
+
+/* Two-up card grid used by Education, Projects and Skills.
+   The template keeps a strict two-column rhythm at every desktop
+   width, so this is a fixed 2 rather than an auto-fit count. */
+.pair-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap);
+}
+
+/* Odd card out: let it run the full width instead of leaving a hole. */
+.languages-panel {
+  grid-column: 1 / -1;
+}
+
 .skip-link {
   position: absolute;
   left: -9999px;
   top: 0;
   z-index: 100;
   padding: 0.75rem 1.25rem;
-  background-color: var(--accent);
-  color: var(--surface);
+  background-color: var(--ink);
+  color: var(--on-ink);
+  border-radius: 0 0 var(--radius) 0;
 }
 
 .skip-link:focus {
@@ -129,13 +176,15 @@ button:focus-visible {
 
 /* =========================================================
    5. HEADER + NAVIGATION
+   A floating black pill, inset from the edges of the window.
    ========================================================= */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: var(--surface);
-  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  /* Opaque so cards do not show through the gap around the pill. */
+  background-color: var(--bg);
 }
 
 .header-inner {
@@ -143,13 +192,18 @@ button:focus-visible {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: var(--header-height);
+  gap: 1rem;
+  min-height: 3.5rem;
+  padding: 0.75rem 1.75rem;
+  background-color: var(--ink);
+  color: var(--on-ink);
+  border-radius: var(--radius);
 }
 
 .brand {
   font-family: var(--font-heading);
   font-size: 1.15rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
 }
 
 .site-nav ul {
@@ -159,20 +213,22 @@ button:focus-visible {
 }
 
 .site-nav a {
-  transition: color 0.2s;
+  font-size: 0.95rem;
+  opacity: 0.75;
+  transition: opacity 0.2s;
 }
 
 .site-nav a:hover {
-  color: var(--accent);
+  opacity: 1;
 }
 
 /* Nav item for the section currently in view - script.js adds this class */
 .site-nav a.is-active {
-  color: var(--accent);
-  font-weight: 600;
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 6px;
 }
 
-/* Hamburger button: hidden on desktop, switched on in the media query below */
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -183,6 +239,7 @@ button:focus-visible {
   padding: 0;
   background: none;
   border: none;
+  color: inherit;
   cursor: pointer;
 }
 
@@ -190,11 +247,10 @@ button:focus-visible {
   display: block;
   width: 24px;
   height: 2px;
-  background-color: var(--text);
+  background-color: currentColor;
   transition: transform 0.25s, opacity 0.25s;
 }
 
-/* Morph the three bars into an X while the menu is open */
 .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
 }
@@ -209,95 +265,120 @@ button:focus-visible {
 
 /* =========================================================
    6. HERO
+   Left column stacks name / lead / contact tiles; the portrait
+   card sits in the right column and spans all three rows.
    ========================================================= */
-.hero {
-  padding: 5rem 0;
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+  padding-bottom: var(--gap);
 }
 
-.hero-inner {
-  display: flex;
-  align-items: center;
-  gap: 3rem;
-  flex-wrap: wrap;
-}
-
-.hero-text {
-  flex: 1 1 320px;
+.hero-name,
+.hero-lead,
+.hero-contact {
+  grid-column: 1;
 }
 
 .hero-photo {
-  flex: 0 0 220px;
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: clamp(220px, 26vw, 380px);
 }
 
 .hero-eyebrow {
-  color: var(--accent);
-  font-size: 0.95rem;
-  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.hero h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  opacity: 0.7;
   margin-bottom: 1rem;
 }
 
-.hero-tagline {
-  font-size: 1.15rem;
-  color: var(--text-muted);
-  max-width: 45ch;
-  margin-bottom: 2rem;
+.hero-name h1 {
+  font-size: clamp(2.75rem, 7vw, 5.5rem);
+  line-height: 1.02;
+}
+
+.hero-lead p {
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  color: var(--text);
 }
 
 .hero-contact {
   list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
-  font-size: 0.95rem;
-  color: var(--text-muted);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
 }
 
-.hero-contact a {
+.contact-tile {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-height: 104px;
+  padding: 1.25rem 1.5rem;
+  background-color: var(--card);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  word-break: break-word;
+}
+
+/* The fifth tile has no partner, so let it run the full width
+   instead of leaving a hole in the grid. */
+.contact-tile-wide {
+  grid-column: 1 / -1;
+}
+
+.tile-icon {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.contact-tile a {
   transition: color 0.2s;
 }
 
-.hero-contact a:hover {
+.contact-tile a:hover {
   color: var(--accent);
   text-decoration: underline;
-}
-
-.avatar {
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  /* clip the photo corners to the circle */
-  background-color: var(--border);
-  color: var(--accent);
-  display: grid;
-  place-items: center;
-  font-family: var(--font-heading);
-  font-size: 4rem;
-}
-
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* fill the square without distorting the photo */
 }
 
 /* =========================================================
    7. ABOUT
    ========================================================= */
-.about-text {
-  max-width: 65ch;
-  font-size: 1.05rem;
+.about-panel p+p,
+.contact-lead p+p {
+  margin-top: 1rem;
 }
 
-.about-text+.about-text {
-  margin-top: 1rem;
+.about-panel p,
+.contact-lead p {
+  max-width: 78ch;
+}
+
+.contact-lead {
+  margin-bottom: var(--gap);
 }
 
 /* =========================================================
@@ -305,14 +386,14 @@ button:focus-visible {
    ========================================================= */
 .entry {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 240px 1fr;
   gap: 2rem;
-  padding: 1.5rem 0;
-  border-bottom: 1px solid var(--border);
 }
 
-.entry:last-child {
-  border-bottom: none;
+/* Education cards sit two-up, so there is no room for a side column. */
+.entry-stacked {
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
 }
 
 .entry-org {
@@ -322,40 +403,33 @@ button:focus-visible {
 .entry-place,
 .entry-date {
   font-size: 0.9rem;
-  color: var(--text-muted);
+  color: var(--muted);
 }
 
 .entry-role {
-  font-size: 1.15rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
 }
 
 .entry-text {
-  color: var(--text-muted);
+  color: var(--muted);
   max-width: 60ch;
 }
 
 .entry-list {
   list-style: disc;
   padding-left: 1.2rem;
-  /* restore the indent the reset removed */
   display: grid;
-  gap: 0.35rem;
+  gap: 0.4rem;
 }
 
 .entry-list li {
-  max-width: 65ch;
+  max-width: 68ch;
 }
 
 /* =========================================================
    9. PROJECTS
    ========================================================= */
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
-  gap: 1.5rem;
-}
-
 .project {
   display: flex;
   flex-direction: column;
@@ -363,44 +437,36 @@ button:focus-visible {
 }
 
 .project-title {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
 
 .project-subtitle {
-  font-size: 0.9rem;
-  color: var(--text-muted);
+  font-size: 0.85rem;
+  color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   margin-top: -0.75rem;
 }
 
 .project-link {
   margin-top: auto;
-  /* push the link to the bottom so cards line up */
   align-self: flex-start;
   color: var(--accent);
   font-weight: 600;
   border-bottom: 1px solid currentColor;
-  transition: color 0.2s;
+  transition: opacity 0.2s;
 }
 
 .project-link:hover {
-  color: var(--accent-light);
+  opacity: 0.7;
 }
 
 /* =========================================================
    10. SKILLS + LANGUAGES
    ========================================================= */
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
-  gap: 2rem;
-}
-
 .skill-heading {
-  font-size: 1.05rem;
-  margin-bottom: 0.75rem;
-  color: var(--accent);
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
 }
 
 .tag-list {
@@ -410,35 +476,32 @@ button:focus-visible {
   gap: 0.5rem;
 }
 
+/* Cream pills on the beige card - the same two page colours,
+   swapped round, so no extra colour enters the palette. */
 .tag {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 0.3rem 0.85rem;
-  font-size: 0.85rem;
-}
-
-.card .tag {
   background-color: var(--bg);
-}
-
-.languages-heading {
-  margin-top: 2.5rem;
+  border-radius: 999px;
+  padding: 0.4rem 0.95rem;
+  font-size: 0.85rem;
 }
 
 .language-list {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
-  gap: 0.75rem 2rem;
+  gap: 0.75rem;
 }
 
 .language-list li {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.18);
+}
+
+.language-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .language-name {
@@ -446,7 +509,7 @@ button:focus-visible {
 }
 
 .language-level {
-  color: var(--text-muted);
+  color: var(--muted);
   font-size: 0.9rem;
 }
 
@@ -457,33 +520,33 @@ button:focus-visible {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: var(--gap);
 }
 
 .contact-card {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
+  min-height: 120px;
+  justify-content: center;
 }
 
 .contact-label {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  color: var(--muted);
 }
 
 .contact-card a {
   color: var(--accent);
   font-weight: 600;
   word-break: break-word;
-  /* a long email must not blow out the card on phones */
-  transition: color 0.2s;
+  transition: opacity 0.2s;
 }
 
 .contact-card a:hover {
-  color: var(--accent-light);
+  opacity: 0.7;
   text-decoration: underline;
 }
 
@@ -491,43 +554,112 @@ button:focus-visible {
    12. FOOTER
    ========================================================= */
 .site-footer {
-  background-color: var(--text);
-  color: var(--bg);
-  padding: 2.5rem 0;
-  margin-top: 3rem;
+  padding-bottom: 1.5rem;
 }
 
 .footer-name {
   font-family: var(--font-heading);
-  font-size: 1.15rem;
+  font-size: 1.3rem;
 }
 
 .footer-note {
   font-size: 0.9rem;
   opacity: 0.75;
-  margin-top: 0.25rem;
+  margin-top: 0.35rem;
 }
 
 /* =========================================================
-   13. RESPONSIVE
-   Media queries go last: CSS is applied top to bottom, so a later rule
-   overrides an earlier one of equal specificity.
+   13. SCROLL REVEAL
+   The hidden state applies only when <html> carries the "js"
+   class, which JavaScript adds itself. If the script fails or
+   is blocked, nothing is hidden and the page stays readable.
    ========================================================= */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  /* Animate opacity and transform only: they are the two properties
+     the browser can handle on the GPU without recalculating layout. */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
 
-/* Tablet and below: the date column gets too cramped, collapse to one column */
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.js .pair-grid .reveal:nth-child(2),
+.js .contact-list .reveal:nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.js .pair-grid .reveal:nth-child(3),
+.js .contact-list .reveal:nth-child(3) {
+  transition-delay: 0.16s;
+}
+
+.js .pair-grid .reveal:nth-child(4),
+.js .contact-list .reveal:nth-child(4) {
+  transition-delay: 0.24s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* =========================================================
+   14. RESPONSIVE
+   ========================================================= */
+@media (max-width: 900px) {
+
+  /* One column: the portrait moves under the name block. */
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-name,
+  .hero-lead,
+  .hero-contact,
+  .hero-photo {
+    grid-column: 1;
+  }
+
+  .hero-photo {
+    grid-row: auto;
+    max-height: 60vh;
+  }
+
+  .entry {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .pair-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 720px) {
+  :root {
+    --radius: 20px;
+  }
+
   .nav-toggle {
     display: flex;
   }
 
   .site-nav {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 0.5rem);
     left: 0;
     right: 0;
-    background-color: var(--surface);
-    border-bottom: 1px solid var(--border);
     display: none;
+    padding: 0.5rem 1.5rem 1rem;
+    background-color: var(--ink);
+    border-radius: var(--radius);
   }
 
   .site-nav.is-open {
@@ -537,110 +669,49 @@ button:focus-visible {
   .site-nav ul {
     flex-direction: column;
     gap: 0;
-    padding: 0.5rem 1.5rem 1rem;
   }
 
-  .site-nav li {
-    border-top: 1px solid var(--border);
+  .site-nav li+li {
+    border-top: 1px solid rgba(251, 245, 237, 0.2);
   }
 
   .site-nav a {
     display: block;
     padding: 0.85rem 0;
   }
-}
 
-@media (max-width: 640px) {
-  .entry {
+  .hero-contact {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
   }
 
-  .hero {
-    padding: 3rem 0;
-  }
-
-  .section {
-    padding: 3rem 0;
-  }
-
-  .section-title {
-    font-size: 1.6rem;
-    margin-bottom: 1.75rem;
+  .contact-tile {
+    min-height: 84px;
   }
 }
 
-/* =========================================================
-   14. SCROLL REVEAL
-   The hidden state applies only when <html> carries the "js" class, which
-   JavaScript adds itself. If the script fails, is blocked, or never runs,
-   nothing is ever hidden and the page stays fully readable.
-   ========================================================= */
-.js .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  /* Animate opacity and transform only: they are the two properties the
-     browser can handle on the GPU without recalculating layout. Animating
-     `top`, `height` or `margin` instead makes the page stutter. */
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.js .reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
-/* Stagger items inside the same grid so they arrive in sequence
-   instead of all snapping in at once. */
-.js .project-grid .reveal:nth-child(2),
-.js .skills-grid .reveal:nth-child(2),
-.js .contact-list .reveal:nth-child(2) {
-  transition-delay: 0.08s;
-}
-
-.js .skills-grid .reveal:nth-child(3),
-.js .contact-list .reveal:nth-child(3) {
-  transition-delay: 0.16s;
-}
-
-.js .skills-grid .reveal:nth-child(4),
-.js .contact-list .reveal:nth-child(4) {
-  transition-delay: 0.24s;
-}
-
-/* Motion like this can make people with vestibular disorders dizzy.
-   If they asked the OS to reduce motion, show the content straight away. */
-@media (prefers-reduced-motion: reduce) {
-  .js .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
 /* =========================================================
    15. PRINT
-   A CV site gets printed. Ctrl+P should produce a clean document,
-   not a screenshot of the screen design.
+   The bento look is for screens. On paper the cards, the black
+   heading blocks and the portrait would eat toner and pages, so
+   the design collapses back to a plain document.
    ========================================================= */
 @media print {
-  /* Screen furniture that carries no meaning on paper. */
+
   .site-header,
   .skip-link,
-  .site-footer {
+  .site-footer,
+  .hero-photo {
     display: none;
   }
 
-  /* CRITICAL: blocks the reader never scrolled to are still at opacity 0,
-     and the browser prints them exactly as they are. Without this override
-     most of the CV comes out blank. */
+  /* CRITICAL: blocks the reader never scrolled to are still at
+     opacity 0, and the browser prints them exactly as they are. */
   .js .reveal {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
   }
 
-  /* Cream on paper wastes toner, and most printers drop background colours
-     by default anyway - so commit to black on white. */
   body {
     background: #fff;
     color: #000;
@@ -649,73 +720,97 @@ button:focus-visible {
     line-height: 1.4;
   }
 
-  .card,
-  .tag,
-  .card .tag {
-    background: #fff;
-  }
-
-  .card,
-  .tag,
-  .entry,
-  .section-title,
-  .language-list li {
-    border-color: #999;
-  }
-
-  /* Muted greys and warm browns turn to mush in greyscale. */
-  .hero-tagline,
-  .hero-eyebrow,
-  .hero-contact,
-  .entry-place,
-  .entry-date,
-  .entry-text,
-  .project-subtitle,
-  .skill-heading,
-  .project-link,
-  .contact-label,
-  .contact-card a,
-  .language-level {
-    color: #000;
-  }
-
-  /* Tighten the vertical rhythm: 4rem of air reads well on screen and
-     wastes half a page on paper. */
-  .hero {
-    padding: 0 0 1rem;
-  }
-
-  .section {
-    padding: 0.75rem 0;
-  }
-
   .container {
     max-width: none;
     padding: 0;
   }
 
-  .hero h1 {
+  /* Cards become plain blocks with a hairline rule instead of fills. */
+  .panel,
+  .contact-tile,
+  .tag {
+    background: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .panel {
+    padding-bottom: 0.75rem;
+  }
+
+  .tag {
+    padding: 0;
+  }
+
+  .tag:not(:last-child)::after {
+    content: ",";
+  }
+
+  .tag-list {
+    gap: 0.35rem;
+  }
+
+  /* The black heading cards turn back into ordinary headings. */
+  .section-title {
+    display: block;
+    min-height: 0;
+    /* the radius would leave curled ends on the rule */
+    border-radius: 0;
+    padding: 0 0 0.3rem;
+    margin-bottom: 0.9rem;
+    background: none;
+    color: #000;
+    border-bottom: 1px solid #999;
+    font-size: 15pt;
+  }
+
+  .hero-name {
+    min-height: 0;
+    background: none;
+    color: #000;
+    padding: 0;
+  }
+
+  .hero-name h1 {
     font-size: 24pt;
   }
 
-  .section-title {
-    font-size: 15pt;
-    margin-bottom: 0.9rem;
-    padding-bottom: 0.3rem;
+  .hero-grid,
+  .pair-grid,
+  .hero-contact,
+  .contact-list {
+    display: block;
   }
 
-  .hero-photo {
-    flex: 0 0 110px;
+  .contact-tile,
+  .contact-card {
+    min-height: 0;
+    margin-bottom: 0.25rem;
+  }
+
+  .section {
+    padding-bottom: 0.75rem;
+  }
+
+  .entry-place,
+  .entry-date,
+  .entry-text,
+  .project-subtitle,
+  .contact-label,
+  .contact-card a,
+  .project-link,
+  .language-level,
+  .hero-eyebrow {
+    color: #000;
   }
 
   /* Never split one job, one degree or one project across two pages. */
   .entry,
-  .card,
+  .project,
   .skill-group {
     break-inside: avoid;
   }
 
-  /* Keep a heading attached to whatever follows it. */
   .section-title,
   .entry-role,
   .project-title,
@@ -723,18 +818,152 @@ button:focus-visible {
     break-after: avoid;
   }
 
-  .language-list,
-  .contact-list {
-    break-inside: avoid;
-  }
-
-  /* Links do nothing on paper, so spell the destination out. attr() is one
-     of the few ways CSS can read data out of the HTML. */
-  .hero-contact a[href^="http"]::after,
+  /* Links do nothing on paper, so spell the destination out. */
+  .contact-tile a[href^="http"]::after,
   .project-link[href^="http"]::after,
   .contact-card a[href^="http"]::after {
     content: " (" attr(href) ")";
     font-size: 0.85em;
     word-break: break-all;
+  }
+}
+
+/* =========================================================
+   16. CONTACT FORM
+   The page is static and cannot send mail. The form POSTs to a
+   third-party form backend, which forwards it by email. Because
+   it is a plain <form action method="POST">, it still works with
+   JavaScript switched off - the browser does a normal submit and
+   validates the required fields itself.
+   ========================================================= */
+.form-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+  margin-bottom: var(--gap);
+}
+
+.form-intro h3 {
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  margin-bottom: 1rem;
+}
+
+.form-intro p {
+  max-width: 42ch;
+}
+
+.form-intro a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.contact-form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.field label {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.req {
+  color: #8E2020;
+}
+
+/* Underline-only inputs, as in the template. The line uses --muted
+   so it clears the 3:1 contrast minimum for control boundaries. */
+.field input,
+.field textarea {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--muted);
+  border-radius: 0;
+  padding: 0.45rem 0;
+  color: var(--text);
+  transition: border-color 0.2s;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-bottom-color: var(--ink);
+}
+
+/* Empty and hidden until something fills it in. Kept in the flow with
+   a reserved line so showing an error does not shift the layout. */
+.field-error {
+  min-height: 1.2em;
+  font-size: 0.85rem;
+  color: #8E2020;
+}
+
+.form-status {
+  min-height: 1.2em;
+  font-size: 0.95rem;
+}
+
+.form-status.is-error {
+  color: #8E2020;
+}
+
+.form-status.is-success {
+  color: #1B5E20;
+}
+
+/* Pushed off-screen rather than display:none - bots read the DOM and
+   skip anything hidden outright. */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.btn-submit {
+  justify-self: end;
+  padding: 0.9rem 2.75rem;
+  background-color: var(--ink);
+  color: var(--on-ink);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-submit:hover {
+  opacity: 0.85;
+}
+
+.btn-submit[disabled] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media (max-width: 900px) {
+  .form-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+
+  .form-panel,
+  .contact-form {
+    display: none;
   }
 }

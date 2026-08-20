@@ -141,3 +141,141 @@ const revealObserver = new IntersectionObserver(
 );
 
 revealItems.forEach((item) => revealObserver.observe(item));
+
+// =========================================================
+// Contact form
+// =========================================================
+// The form already works without any of this: it is a plain
+// <form action method="POST">, so the browser submits it and validates
+// the required fields itself. Everything below is an enhancement -
+// inline messages instead of browser tooltips, and sending without a
+// page reload.
+
+const contactForm = document.querySelector('.contact-form');
+const formStatus = document.querySelector('.form-status');
+const submitButton = document.querySelector('.btn-submit');
+
+// Switch off the browser's own validation ONLY now that a replacement is
+// running. Putting novalidate in the HTML instead would leave people with
+// JavaScript disabled no validation at all.
+contactForm.setAttribute('novalidate', '');
+
+// Every input points at its own error paragraph through aria-describedby,
+// so the markup already says where a message belongs.
+function errorElementFor(input) {
+  return document.getElementById(input.getAttribute('aria-describedby'));
+}
+
+function setFieldError(input, message) {
+  errorElementFor(input).textContent = message;
+  input.setAttribute('aria-invalid', message ? 'true' : 'false');
+}
+
+function setStatus(message, kind) {
+  formStatus.textContent = message;
+  formStatus.classList.toggle('is-error', kind === 'error');
+  formStatus.classList.toggle('is-success', kind === 'success');
+}
+
+function setBusy(busy) {
+  submitButton.disabled = busy;
+  submitButton.textContent = busy ? 'Sending...' : 'Submit';
+}
+
+// Every field that carries an error paragraph is a field worth checking.
+const fields = contactForm.querySelectorAll('[aria-describedby]');
+
+// Turns a failing input into a sentence someone can act on.
+// Returns an empty string when the input is fine.
+function messageFor(input) {
+  // Every input exposes the <label> elements pointing at it, so the wording
+  // comes from the markup. Add a field later and this keeps working.
+  const label = input.labels[0];
+  const name = label ? label.textContent.replace('*', '').trim().toLowerCase() : 'value';
+
+  // Check valueMissing first: an empty box is also a format failure, and
+  // "Enter your email address" is more useful than "that is not an email".
+  if (input.validity.valueMissing) {
+    return input.type === 'email' ? 'Enter your email address.' : 'Enter a ' + name + '.';
+  }
+
+  if (input.validity.typeMismatch) {
+    return 'Enter a valid email address.';
+  }
+
+  return '';
+}
+
+// Checks every field, shows or clears each message, and returns the FIRST
+// invalid input, or null when the whole form is valid.
+function firstInvalidField() {
+  let firstInvalid = null;
+
+  fields.forEach((field) => {
+    const message = messageFor(field);
+    setFieldError(field, message);
+
+    // Deliberately no early exit: the rest of the loop is what clears stale
+    // messages from fields the person has since fixed.
+    if (message && !firstInvalid) {
+      firstInvalid = field;
+    }
+  });
+
+  return firstInvalid;
+}
+
+// Clear a message the moment the person fixes the field. Nagging while
+// they are still typing is worse than saying nothing.
+contactForm.addEventListener('input', (event) => {
+  const field = event.target;
+  if (!field.hasAttribute('aria-describedby')) return;
+
+  // Only ever CLEAR here, never add. Recomputing the message on each
+  // keystroke would flash "Enter a valid email address" after the first
+  // letter, long before there is anything to complain about.
+  if (field.getAttribute('aria-invalid') === 'true' && field.checkValidity()) {
+    setFieldError(field, '');
+  }
+});
+
+contactForm.addEventListener('submit', async (event) => {
+  // Stop the normal page-reloading submit; from here the script owns it.
+  event.preventDefault();
+  setStatus('');
+
+  const invalid = firstInvalidField();
+  if (invalid) {
+    // Keyboard and screen reader users cannot see red text in the middle of
+    // the page; moving focus is how they learn what went wrong.
+    invalid.focus();
+    return;
+  }
+
+  setBusy(true);
+
+  try {
+    const response = await fetch(contactForm.action, {
+      method: 'POST',
+      body: new FormData(contactForm),
+      headers: { Accept: 'application/json' },
+    });
+
+    // fetch only rejects when the network is unreachable - a 404 or a 500
+    // still resolves, so the status has to be checked explicitly.
+    if (response.ok) {
+      contactForm.reset();
+      // reset() restores the field values, not the messages: those are text
+      // this script wrote into the DOM, so clear them by hand.
+      fields.forEach((field) => setFieldError(field, ''));
+      setStatus('Thanks for your message. I will get back to you soon.', 'success');
+    } else {
+      setStatus('Sorry, the message could not be sent. Please email quangtu224@gmail.com instead.', 'error');
+    }
+  } catch {
+    setStatus('No connection. Please check your network, or email quangtu224@gmail.com instead.', 'error');
+  } finally {
+    // In finally, so a dropped connection never leaves the button stuck.
+    setBusy(false);
+  }
+});
